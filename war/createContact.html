@@ -1,0 +1,140 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<style type="text/css">
+<!--
+.myclass{
+	margin-bottom: 15px;
+	background-color: #C69;
+}
+-->
+</style>
+<script type="text/javascript">
+var i = 1;
+function addPhone(){
+	if (i <= 3){
+		i++;	
+    	var div = document.createElement('div');
+		div.style.width = "300px";
+		div.style.height = "10px";
+		div.style.color = "black";
+		div.style.backgroundColor = "white";
+		div.setAttribute('class', 'myclass');
+    	div.innerHTML = 'Phone ' + i + ' : <input type="text" name="phone_'+i+'", id="phone_'+i+'" ><input type="button" value="-" onclick="removePhone(this)">';
+    	document.getElementById('phones').appendChild(div);
+	}
+}
+
+function removePhone(div) {	
+    document.getElementById('phones').removeChild( div.parentNode );
+	i--;
+}
+
+var j = 1;
+function addMail(){
+	if (j <= 3){
+		j++;	
+    	var div = document.createElement('div');
+		div.style.width = "300px";
+		div.style.height = "10px";
+		div.style.color = "black";
+		div.style.backgroundColor = "white";
+		div.setAttribute('class', 'myclass');
+    	div.innerHTML = 'E-mail ' + j + ' : <input type="text" name="mail_'+j+'", id="mail_'+j+'" ><input type="button" value="-" onclick="removeMail(this)">';
+    	document.getElementById('mails').appendChild(div);
+	}
+}
+
+function removeMail(div) {	
+    document.getElementById('mails').removeChild( div.parentNode );
+	j--;
+}
+
+
+
+
+function addContact(){
+	
+	nameText = document.getElementById('name').value
+	
+	 phonesText = []
+	var k;
+	for (k = 1; k <= 4; k++) { 
+	    label = document.getElementById('phone_'+k);
+	    if (label != null) 
+	    	phonesText [k] = document.getElementById('phone_'+k).value
+	}
+
+	 mailsText = []
+	for (k = 1; k <= 4; k++) { 
+	    label = document.getElementById('mail_'+k);
+	    if (label != null) 
+	    	mailsText [k] = document.getElementById('mail_'+k).value
+	}
+	
+	 phonesText.shift();
+	 mailsText.shift();
+	 
+	 
+	 Contact = {nameText, phonesText, mailsText}
+	 cont = JSON.stringify(Contact)
+	console.log(cont);
+	 
+	 
+	 
+	    var xhttp = new XMLHttpRequest();
+		xhttp.open("POST", "/createContact?createContact", true);
+		xhttp.send(cont);
+		document.getElementById('outPut').innerHTML = 'Contact added successfully';
+		
+		
+	
+	
+}
+
+
+function createContact(){
+	
+}
+
+
+
+
+
+</script>
+
+
+
+
+</head>
+<body>
+
+<h2>Adding contacts:</h2>
+
+<form action="/createContact" method="post" >
+	
+	Name   :  <input type="text" name="name" id="name"></input><br/>
+	
+	
+    <div id="phones">
+       Phone : <input type="text" name="phone_1", id="phone_1" ></input> <input type="button" id="add_phone()" onClick="addPhone()" value="+"></input>(limit 4)
+    </div>
+  
+
+
+   <div id="mails">
+       E-mail : <input type="text" name="mail_1", id="mail_1" ></input> <input type="button" id="add_mail()" onClick="addMail()" value="+"></input>(limit 4)
+    </div>
+
+<!--   <input type="submit" value="createContact"></input> -->
+</form>
+
+
+      <button value="createContact" onClick="addContact();">Add contacts</button>
+    
+ 	
+ 	<br>
+ 	  <label id="outPut" name="outPut" type = "text/html">  </label>
+
+</body>
+</html>

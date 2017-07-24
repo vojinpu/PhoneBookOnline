@@ -1,0 +1,104 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<style type="text/css">
+<!--
+.myclass {
+	margin-bottom: 15px;
+	background-color: #C69;
+}
+-->
+</style>
+<script type="text/javascript">
+	var i = 1;
+
+	window.onload = function addPhone() {
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("GET", "/julyhelloworldappengine?showContact", true);
+		xhttp.send();
+
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+
+				jsonText = xhttp.responseText;
+
+				Contacts = JSON.parse(jsonText);
+
+				//Contact = ['Vojin', 'Vanja', 'Vlada', 'Nikola'];
+
+				Contacts
+						.forEach(function(contact) {
+
+							name = contact.name
+							console.log(name);
+
+							i++;
+							var div = document.createElement('div');
+							div.style.width = "300px";
+							div.style.height = "10px";
+							div.style.color = "black";
+							div.style.backgroundColor = "white";
+							div.setAttribute('class', 'myclass');
+							div.innerHTML = '<input type="button" value="x" onclick="removeContact(this)"> :  '
+									+ name;
+							div.setAttribute("name",contact.key);
+							document.getElementById('contacts')
+									.appendChild(div);
+
+						})
+
+			}
+		};
+
+	}
+
+	function removeContact(div) {
+
+		 code = div.parentElement.getAttribute("name");
+		
+		
+		 var xhttp = new XMLHttpRequest();
+		 xhttp.open("GET", "/deleteContact?deleteContact="+code, true);
+		 xhttp.send();
+		
+		 
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+
+		
+		document.getElementById('contacts').removeChild(div.parentNode);
+		i--;
+
+		if (i == 1) {
+
+			document.getElementById('contacts').innerHTML = '<b><u> No more contacts</u></b>';
+
+		}
+		
+				}};
+		
+		
+	}
+</script>
+
+
+
+
+</head>
+<body>
+
+
+
+
+	<h2>Contacts:</h2>
+
+	<div id="contacts"></div>
+
+
+
+
+
+
+</body>
+</html>

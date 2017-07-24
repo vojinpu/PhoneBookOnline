@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Contacts</title>
+<script>
+	window.onload = function showContact() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("GET", "/julyhelloworldappengine?showContact", true);
+		xhttp.send();
+
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+
+				jsonText = xhttp.responseText;
+
+				Contacts = JSON.parse(jsonText);
+
+				var i = 1;
+				Contacts.forEach(function(contact) {
+
+					var div = document.createElement('div');
+					div.style.width = "300px";
+					div.style.height = "20px";
+					div.style.color = "black";
+					div.style.backgroundColor = "white";
+					div.setAttribute('class', 'myclass');
+					
+					
+					var phones = ''
+					for(help of contact.phones)
+						phones += help + ' ';
+					
+					var mails = ''
+						for(help of contact.emails)
+							mails += help + ' ';
+						
+					
+
+					pom = '<div class="popup" onclick="showDetails(myPopup'+i+')">' + i + '. ' + contact.name
+							+ ' <span class="popuptext" id="myPopup' + i +'">'
+							+ 'Phones: '+phones+'<br> E-mails:'+mails+'<br></span> </div>'
+					console.log(pom)
+					div.innerHTML = pom
+
+					document.getElementById('contacts').appendChild(div);
+
+					i++;
+
+				});
+
+			}
+		};
+
+	}
+
+	function showDetails(namePopup) {
+		
+		var name = namePopup.getAttribute("id")
+
+		var popup = document.getElementById(name);
+		popup.classList.toggle("show");
+
+	}
+</script>
+
+</head>
+
+
+
+
+
+
+
+
+<body>
+	<h1>Welcome to PhoneBook</h1>
+
+
+	<td colspan="2" style="font-weight: bold;">Available comands:</td>
+	<br>
+	<br>
+
+	<a href="/createContact.html">1. Create Contact</a>
+	<br>
+	<a href="/searchContact.html">2. Search Contacts</a>
+	<br>
+	<a href="/deleteContact.html">3. Delete Contacts</a>
+	<br>
+	<br>
+
+
+
+	<br>
+	<br>
+	<h2>Contacts:</h2>
+	<h2 id="contacts"></h2>
+
+
+
+
+	<script>
+		// When the user clicks on div, open the popup
+		function myFunction() {
+			var popup = document.getElementById("myPopup");
+			popup.classList.toggle("show");
+		}
+	</script>
+
+
+	<style>
+/* Popup container - can be anything you want */
+.popup {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+	visibility: hidden;
+	width: 160px;
+	background-color: #555;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 8px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 50%;
+	margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+	visibility: visible;
+	-webkit-animation: fadeIn 1s;
+	animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@
+-webkit-keyframes fadeIn {
+	from {opacity: 0;
+}
+
+to {
+	opacity: 1;
+}
+
+}
+@
+keyframes fadeIn {
+	from {opacity: 0;
+}
+
+to {
+	opacity: 1;
+}
+}
+</style>
+
+
+
+
+
+	<style>
+span.dropt {
+	border-bottom: thin dotted;
+	background: #ffeedd;
+}
+
+span.dropt:hover {
+	text-decoration: none;
+	background: #ffffff;
+	z-index: 6;
+}
+
+span.dropt span {
+	position: absolute;
+	left: -9999px;
+	margin: 20px 0 0 0px;
+	padding: 3px 3px 3px 3px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	z-index: 6;
+}
+
+span.dropt:hover span {
+	left: 2%;
+	background: #ffffff;
+}
+
+span.dropt span {
+	position: absolute;
+	left: -9999px;
+	margin: 4px 0 0 0px;
+	padding: 3px 3px 3px 3px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+
+span.dropt:hover span {
+	margin: 20px 0 0 170px;
+	background: #ffffff;
+	z-index: 6;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- 
+    
+     <h3>Contacts:</h3>
+    <label id="label_contacts" name="label_names" type = "text/html">  </label>
+  
+      
+    <div id="demo">
+  <h2>Let AJAX change this text</h2>
+  <button type="button" onclick="loadDoc()">Change Content</button>
+</div>
+    
+    
+    
+    <br>
+    <br><br><br><br>
+    <form action="/julyhelloworldappengine" method="post">
+    		<label for="name1">Name: </label><input id="name1" name="first_name" type="text" value="James"></input><br>
+    		<label for="country">Country: </label><input id="country" name="country" type="text" value="USA"></input><br>
+    		<label for="food">Favorite Food: </label><input id="food" name="food" type="text" value="Andhra Meals"></input><br><br>
+    		
+    		<label for="male">Male: </label><input id="male" name="gender" value="male" type="radio" />
+    		<label for="female">Female: </label><input id="female" name="gender" value="female" type="radio" />
+    		<label for="other">Other: </label><input id="other" name="gender" value="other" type="radio" /><br>
+    		
+    		<label for="a">A: </label><input id="a" name="a" value="" type="text" /><br>
+    		<label for="b">B: </label><input id="b" name="b" value="" type="text" /><br>
+    		
+    		
+    		<input type="submit" value="Submit to Server"></input>
+    </form>
+     -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
